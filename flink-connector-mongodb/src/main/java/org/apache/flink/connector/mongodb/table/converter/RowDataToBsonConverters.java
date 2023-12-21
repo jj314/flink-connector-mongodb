@@ -275,7 +275,10 @@ public class RowDataToBsonConverters {
                 for (int i = 0; i < fieldCount; i++) {
                     String fieldName = rowType.getFieldNames().get(i);
                     Object fieldValue = fieldGetters[i].getFieldOrNull(rowData);
-                    document.append(fieldName, fieldConverters[i].apply(fieldValue));
+                    BsonValue bsonValue = fieldConverters[i].apply(fieldValue);
+                    if (fieldValue != null){
+                        document.append(fieldName, bsonValue);
+                    }
                 }
                 return document;
             }
